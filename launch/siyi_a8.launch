@@ -1,0 +1,26 @@
+<launch>
+
+    <arg name="UAV_NAME" default="$(optenv UAV_NAME)" />
+    <arg name="camera_name" default="siyi_a8" />
+    <arg name="camera_frame" default="rtsp_camera_link" />
+    <arg name="image_raw_topic" default="image_raw" />
+    <arg name="camera_info_topic" default="camera_info" />
+
+    <!-- RTSP camera info -->
+    <arg name="hostname" default="192.168.144.25" />
+    <arg name="port" default="8554" />
+    <arg name="stream" default="main.264" />
+
+    <group ns="$(arg UAV_NAME)">
+    	<group ns="$(arg camera_name)">
+           <node pkg="rtsp_to_ros" type="rtsp_to_ros.py" name="siyi_a8" output="screen">
+            	<param name="rtsp_resource" value="rtsp://$(arg hostname):$(arg port)/$(arg stream)" />
+            	<param name="camera_name" value="$(arg camera_name)" />
+           	<param name="camera_frame" value="$(arg camera_frame)" />
+            	<param name="image_raw_topic" value="$(arg image_raw_topic)" />
+            	<param name="camera_info_topic" value="$(arg camera_info_topic)" />
+           </node>
+    	</group>
+    </group>
+
+</launch>
